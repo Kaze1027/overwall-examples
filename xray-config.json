@@ -1,0 +1,182 @@
+{
+    "log": {
+        "access": "",
+        "error": "",
+        "loglevel": "debug"
+    },
+    "dns": {
+        "servers": [
+            "localhost",
+            {
+                "address": "your.netflix.proxy",
+                "port": 53,
+                "domains": [
+                    "geosite:netflix"
+                ],
+                "clientIP": "your.netflix.proxy.ip"
+            }
+        ],
+        "queryStrategy": "UseIP"
+    },
+    "routing": {
+        "domainStrategy": "IPIfNonMatch",
+        "domainMatcher": "hybrid",
+        "rules": [
+            {
+                "type": "field",
+                "outboundTag": "Dns-Out",
+                "network": "tcp,udp",
+                "port": 53
+            },
+            {
+                "type": "field",
+                "outboundTag": "Block",
+                "protocol": [
+                    "bittorrent"
+                ]
+            },
+            {
+                "type": "field",
+                "outboundTag": "Block",
+                "domain": [
+                    "geosite:category-ads-all"
+                ]
+            },
+            {
+                "type": "field",
+                "outboundTag": "Direct",
+                "domain": [
+                    "geosite:apple",
+                    "geosite:google"
+                ]
+            },
+            {
+                "type": "field",
+                "inboundTag": "Forward-In-NF",
+                "outboundTag": "NetflixRelay",
+                "domain": [
+                    "geosite:netflix"
+                ]
+            },
+            {
+                "type": "field",
+                "inboundTag": "Forward-In-NF",
+                "outboundTag": "NetflixRelay",
+                "ip": [
+                    "geoip:netflix"
+                ]
+            },
+            {
+                "type": "field",
+                "outboundTag": "Block",
+                "domain": [
+                    "geosite:cn",
+                    "geosite:cnki"
+                ]
+            },
+            {
+                "type": "field",
+                "outboundTag": "Block",
+                "ip": [
+                    "geoip:cn"
+                ]
+            }
+        ]
+    },
+    "inbounds": [
+        {
+            "listen": "0.0.0.0",
+            "port": 53,
+            "protocol": "dokodemo-door",
+            "settings": {
+                "address": "1.1.1.1",
+                "port": 53,
+                "network": "tcp,udp",
+                "timeout": 5,
+                "followRedirect": false
+              },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls",
+                    "quic"
+                ]
+            },
+            "tag": "DNS-In"
+        },
+        {
+            "listen": "127.0.0.1",
+            "port": 6443,
+            "protocol": "socks",
+            "settings": {
+                "auth": "noauth",
+                "udp": true,
+                "ip": "127.0.0.1"
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls",
+                    "quic"
+                ],
+                "routeOnly": true
+            },
+            "tag": "Forward-In"
+        },
+        {
+            "listen": "127.0.0.1",
+            "port": 7443,
+            "protocol": "socks",
+            "settings": {
+                "auth": "noauth",
+                "udp": true,
+                "ip": "127.0.0.1"
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls",
+                    "quic"
+                ],
+                "routeOnly": true
+            },
+            "tag": "Forward-In-NF"
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "freedom",
+            "tag": "Direct"
+        },
+        {
+            "protocol": "dns",
+            "tag": "Dns-Out"
+        },
+        {
+            "protocol": "shadowsocks",
+            "settings": {
+                "servers": [
+                    {
+                        "address": "your.netflix.proxy",
+                        "port": 40000,
+                        "method": "2022-blake3-aes-128-gcm",
+                        "password": "B50qTd4Rgcexi/vGsp8+Bw=="
+                    }
+                ]
+            },
+            "tag": "NetflixRelay"
+        },
+        {
+            "protocol": "blackhole",
+            "settings": {
+                "response": {
+                    "type": "http"
+                }
+            },
+            "tag": "Block"
+        }
+    ]
+}

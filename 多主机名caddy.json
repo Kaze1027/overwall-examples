@@ -1,0 +1,312 @@
+{
+    "admin": {
+        "disabled": true
+    },
+    "logging": {
+        "logs": {
+            "default": {
+                "writer": {
+                    "output": "file",
+                    "filename": "/var/log/caddy/access.log"
+                },
+                "level": "ERROR"
+            }
+        }
+    },
+    "apps": {
+        "layer4": {
+            "servers": {
+                "sni": {
+                    "listen": [
+                        ":443"
+                    ],
+                    "routes": [
+                        {
+                            "match": [
+                                {
+                                    "tls": {
+                                        "sni": [
+                                            "sni1.domain.com"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": [
+                                                "127.0.0.1:5443"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "tls": {
+                                        "sni": [
+                                            "sni2.domain.com"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": [
+                                                "127.0.0.1:4443"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "http": {
+            "servers": {
+                "h1": {
+                    "listen": [
+                        ":80"
+                    ],
+                    "routes": [
+                        {
+                            "handle": [
+                                {
+                                    "handler": "static_response",
+                                    "headers": {
+                                        "Location": [
+                                            "https://{http.request.host}{http.request.uri}"
+                                        ]
+                                    },
+                                    "status_code": 301
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "h1h2c": {
+                    "listen": [
+                        "127.0.0.1:88"
+                    ],
+                    "routes": [
+                        {
+                            "handle": [
+                                {
+                                    "handler": "headers",
+                                    "response": {
+                                        "set": {
+                                            "Strict-Transport-Security": [
+                                                "max-age=31536000; includeSubDomains; preload"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "handler": "file_server",
+                                    "root": "/var/www/html/yourwebfolder"
+                                }
+                            ]
+                        }
+                    ],
+                    "protocols": [
+                        "h1",
+                        "h2c"
+                    ]
+                },
+                "sni1": {
+                    "listen": [
+                        "127.0.0.1:5443"
+                    ],
+                    "routes": [
+                        {
+                            "handle": [
+                                {
+                                    "handler": "forward_proxy",
+                                    "hide_ip": true,
+                                    "hide_via": true,
+                                    "auth_user_deprecated": "sni1",
+                                    "auth_pass_deprecated": "passwd",
+                                    "probe_resistance": {
+                                        "domain": "caddy.localhost"
+                                    },
+                                    "upstream": "socks5://127.0.0.1:7443"
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": [
+                                        "sni1.domain.com"
+                                    ]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "headers",
+                                    "response": {
+                                        "set": {
+                                            "Strict-Transport-Security": [
+                                                "max-age=31536000; includeSubDomains; preload"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "handler": "file_server",
+                                    "root": "/var/www/html/yourwebfolder"
+                                }
+                            ],
+                            "terminal": true
+                        }
+                    ],
+                    "tls_connection_policies": [
+                        {
+                            "certificate_selection": {
+                                "any_tag": [
+                                    "tls01"
+                                ]
+                            },
+                            "cipher_suites": [
+                                "TLS_AES_256_GCM_SHA384",
+                                "TLS_AES_128_GCM_SHA256",
+                                "TLS_CHACHA20_POLY1305_SHA256",
+                                "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+                                "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+                                "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
+                                "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+                                "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256",
+                                "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256"
+                            ],
+                            "curves": [
+                                "x25519",
+                                "secp521r1",
+                                "secp384r1",
+                                "secp256r1"
+                            ],
+                            "alpn": [
+                                "h2",
+                                "http/1.1"
+                            ]
+                        }
+                    ],
+                    "protocols": [
+                        "h1",
+                        "h2"
+                    ]
+                },
+                "sni2": {
+                    "listen": [
+                        "127.0.0.1:4443"
+                    ],
+                    "routes": [
+                        {
+                            "handle": [
+                                {
+                                    "handler": "forward_proxy",
+                                    "hide_ip": true,
+                                    "hide_via": true,
+                                    "auth_user_deprecated": "sni2",
+                                    "auth_pass_deprecated": "passwd",
+                                    "probe_resistance": {
+                                        "domain": "caddy.localhost"
+                                    },
+                                    "upstream": "socks5://127.0.0.1:6443"
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": [
+                                        "sni2.domain.com"
+                                    ]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "headers",
+                                    "response": {
+                                        "set": {
+                                            "Strict-Transport-Security": [
+                                                "max-age=31536000; includeSubDomains; preload"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "handler": "file_server",
+                                    "root": "/var/www/html/yourwebfolder"
+                                }
+                            ],
+                            "terminal": true
+                        }
+                    ],
+                    "tls_connection_policies": [
+                        {
+                            "certificate_selection": {
+                                "any_tag": [
+                                    "tls02"
+                                ]
+                            },
+                            "cipher_suites": [
+                                "TLS_AES_256_GCM_SHA384",
+                                "TLS_AES_128_GCM_SHA256",
+                                "TLS_CHACHA20_POLY1305_SHA256",
+                                "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+                                "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+                                "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
+                                "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+                                "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256",
+                                "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256"
+                            ],
+                            "curves": [
+                                "x25519",
+                                "secp521r1",
+                                "secp384r1",
+                                "secp256r1"
+                            ],
+                            "alpn": [
+                                "h2",
+                                "http/1.1"
+                            ]
+                        }
+                    ],
+                    "protocols": [
+                        "h1",
+                        "h2"
+                    ]
+                }
+            }
+        },
+        "tls": {
+            "certificates": {
+                "load_files": [
+                    {
+                        "certificate": "/etc/ssl/private/sni1.domain.com/sni1.domain.com_bundle.crt",
+                        "key": "/etc/ssl/private/sni1.domain.com/sni1.domain.com.key",
+                        "tags": [
+                            "tls01"
+                        ]
+                    },
+                    {
+                        "certificate": "/etc/ssl/private/sni2.domain.com/sni2.domain.com_bundle.crt",
+                        "key": "/etc/ssl/private/sni2.domain.com/sni2.domain.com.key",
+                        "tags": [
+                            "tls02"
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+}
