@@ -28,7 +28,7 @@ Xray-core是v2ray-core的超集，含更好的整体性能和 XTLS 等一系列�
 
 - 一个域名（本文使用dnspod域名，域名解析与SSL证书均在dnspod解决）
 
-　## 二、搭建NaïveProxy服务（caddy）[用于过墙]
+## 二、搭建NaïveProxy服务（caddy）[用于过墙]
 
 - 环境要求：
   - `caddy` caddy带forwardproxy插件
