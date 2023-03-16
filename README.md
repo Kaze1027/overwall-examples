@@ -839,8 +839,8 @@ Xray-core是v2ray-core的超集，含更好的整体性能和 XTLS 等一系列�
           ]
       },
       "inbounds": [
-          {//接收本机收到的DNS请求，将其通过rule中劫持DNS规则进行劫持，实现对外提供DNS的服务，主要是为了实现落地机DNS查询
-              "listen": "0.0.0.0",
+          {//接收本机收到的DNS请求，将其通过rule中劫持DNS规则进行劫持，实现对外提供DNS的服务，主要是为了实现落地机DNS查询,普通不需要开启
+              "listen": "1.2.3.4",//此处建议使用服务器的IP，避免和本身使用53端口的其他服务类似resolv冲突
               "port": 53,
               "protocol": "dokodemo-door",
               "settings": {
