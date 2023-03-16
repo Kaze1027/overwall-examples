@@ -85,7 +85,7 @@
     },
     "inbounds": [
         {
-            "listen": "0.0.0.0",
+            "listen": "1.2.3.4",
             "port": 53,
             "protocol": "dokodemo-door",
             "settings": {
