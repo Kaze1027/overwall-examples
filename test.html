@@ -1,0 +1,165 @@
+<html>
+
+<head>
+	<script>var doc = document, $d, $dp, $cfg = doc.cfg, $pdp = parent.$dp, $dt, $tdt, $sdt, $lastInput, $IE = $pdp.ie, $FF = $pdp.ff, $OPERA = $pdp.opera, $ny, $cMark = false; if ($cfg.eCont) { $dp = {}; for (var p in $pdp) $dp[p] = $pdp[p]; } else { $dp = $pdp; }; for (var p in $cfg) { $dp[p] = $cfg[p]; } doc.oncontextmenu = function () { try { $c._fillQS(!$dp.has.d, 1); showB($d.qsDivSel); } catch (e) { }; return false; };</script>
+	<script src="/inetwa/assets/fh-ui/js/plugins/my97-datepicker/lang/zh-cn.js" charset="gb2312"></script>
+	<link rel="stylesheet" type="text/css" href="/inetwa/assets/fh-ui/js/plugins/my97-datepicker/../../../css/fh-ui.css">
+	<link rel="stylesheet" type="text/css"
+		href="/inetwa/assets/fh-ui/js/plugins/my97-datepicker/skin/default/datepicker.css" charset="gb2312">
+	<script src="/inetwa/assets/fh-ui/js/plugins/my97-datepicker/calendar.js"></script>
+</head>
+
+<body leftmargin="0" topmargin="0" tabindex="0">
+	<script>var t; t = t || setInterval(function () { if ((typeof (doc.ready) == "boolean" && doc.ready) || doc.readyState == "complete") { new My97DP(); $cfg.onload(); $c.autoSize(); $cfg.setPos($dp); clearInterval(t); } }, 20);</script>
+	<div class="WdateDiv">
+		<div id="dpTitle">
+			<div class="NavImg NavImgll"><a></a></div>
+			<div class="NavImg NavImgl"><a></a></div>
+			<div style="float:left">
+				<div class="menuSel MMenu" style="display: none;"></div><input class="yminput">
+			</div>
+			<div style="float:left">
+				<div class="menuSel YMenu" style="display: none;"></div><input class="yminput">
+			</div>
+			<div class="NavImg NavImgrr"><a></a></div>
+			<div class="NavImg NavImgr"><a></a></div>
+			<div style="float:right"></div>
+		</div>
+		<div style="position: absolute; overflow: hidden; display: none; width: 231px; height: 204px;"></div>
+		<div>
+			<table class="WdayTable" width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tbody>
+					<tr class="MTitle" align="center">
+						<td>日</td>
+						<td>一</td>
+						<td>二</td>
+						<td>三</td>
+						<td>四</td>
+						<td>五</td>
+						<td>六</td>
+					</tr>
+					<tr>
+						<td onclick="day_Click(2024,4,28);" onmouseover="this.className='WotherDayOn'"
+							onmouseout="this.className='WotherDay'" class="WotherDay">28</td>
+						<td onclick="day_Click(2024,4,29);" onmouseover="this.className='WotherDayOn'"
+							onmouseout="this.className='WotherDay'" class="WotherDay">29</td>
+						<td onclick="day_Click(2024,4,30);" onmouseover="this.className='WotherDayOn'"
+							onmouseout="this.className='WotherDay'" class="WotherDay">30</td>
+						<td onclick="day_Click(2024,5,1);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">1</td>
+						<td onclick="day_Click(2024,5,2);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">2</td>
+						<td onclick="day_Click(2024,5,3);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">3</td>
+						<td onclick="day_Click(2024,5,4);" onmouseover="this.className='WwdayOn'"
+							onmouseout="this.className='Wwday'" class="Wwday">4</td>
+					</tr>
+					<tr>
+						<td onclick="day_Click(2024,5,5);" onmouseover="this.className='WwdayOn'"
+							onmouseout="this.className='Wwday'" class="Wwday">5</td>
+						<td onclick="day_Click(2024,5,6);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">6</td>
+						<td onclick="day_Click(2024,5,7);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">7</td>
+						<td onclick="day_Click(2024,5,8);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">8</td>
+						<td onclick="day_Click(2024,5,9);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">9</td>
+						<td onclick="day_Click(2024,5,10);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">10</td>
+						<td onclick="day_Click(2024,5,11);" onmouseover="this.className='WwdayOn'"
+							onmouseout="this.className='Wwday'" class="Wwday">11</td>
+					</tr>
+					<tr>
+						<td onclick="day_Click(2024,5,12);" onmouseover="this.className='WwdayOn'"
+							onmouseout="this.className='Wwday'" class="Wwday">12</td>
+						<td onclick="day_Click(2024,5,13);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">13</td>
+						<td onclick="day_Click(2024,5,14);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">14</td>
+						<td onclick="day_Click(2024,5,15);" onmouseover="this.className='WdayOn'"
+							onmouseout="this.className='Wselday'" class="Wselday">15</td>
+						<td onclick="day_Click(2024,5,16);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">16</td>
+						<td onclick="day_Click(2024,5,17);" onmouseover="this.className='WdayOn'"
+							onmouseout="this.className='Wtoday'" class="Wtoday">17</td>
+						<td onclick="day_Click(2024,5,18);" onmouseover="this.className='WwdayOn'"
+							onmouseout="this.className='Wwday'" class="Wwday">18</td>
+					</tr>
+					<tr>
+						<td onclick="day_Click(2024,5,19);" onmouseover="this.className='WwdayOn'"
+							onmouseout="this.className='Wwday'" class="Wwday">19</td>
+						<td onclick="day_Click(2024,5,20);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">20</td>
+						<td onclick="day_Click(2024,5,21);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">21</td>
+						<td onclick="day_Click(2024,5,22);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">22</td>
+						<td onclick="day_Click(2024,5,23);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">23</td>
+						<td onclick="day_Click(2024,5,24);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">24</td>
+						<td onclick="day_Click(2024,5,25);" onmouseover="this.className='WwdayOn'"
+							onmouseout="this.className='Wwday'" class="Wwday">25</td>
+					</tr>
+					<tr>
+						<td onclick="day_Click(2024,5,26);" onmouseover="this.className='WwdayOn'"
+							onmouseout="this.className='Wwday'" class="Wwday">26</td>
+						<td onclick="day_Click(2024,5,27);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">27</td>
+						<td onclick="day_Click(2024,5,28);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">28</td>
+						<td onclick="day_Click(2024,5,29);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">29</td>
+						<td onclick="day_Click(2024,5,30);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">30</td>
+						<td onclick="day_Click(2024,5,31);" onmouseover="this.className='WdayOn'" onmouseout="this.className='Wday'"
+							class="Wday">31</td>
+						<td onclick="day_Click(2024,6,1);" onmouseover="this.className='WotherDayOn'"
+							onmouseout="this.className='WotherDay'" class="WotherDay">1</td>
+					</tr>
+					<tr>
+						<td onclick="day_Click(2024,6,2);" onmouseover="this.className='WotherDayOn'"
+							onmouseout="this.className='WotherDay'" class="WotherDay">2</td>
+						<td onclick="day_Click(2024,6,3);" onmouseover="this.className='WotherDayOn'"
+							onmouseout="this.className='WotherDay'" class="WotherDay">3</td>
+						<td onclick="day_Click(2024,6,4);" onmouseover="this.className='WotherDayOn'"
+							onmouseout="this.className='WotherDay'" class="WotherDay">4</td>
+						<td onclick="day_Click(2024,6,5);" onmouseover="this.className='WotherDayOn'"
+							onmouseout="this.className='WotherDay'" class="WotherDay">5</td>
+						<td onclick="day_Click(2024,6,6);" onmouseover="this.className='WotherDayOn'"
+							onmouseout="this.className='WotherDay'" class="WotherDay">6</td>
+						<td onclick="day_Click(2024,6,7);" onmouseover="this.className='WotherDayOn'"
+							onmouseout="this.className='WotherDay'" class="WotherDay">7</td>
+						<td onclick="day_Click(2024,6,8);" onmouseover="this.className='WotherDayOn'"
+							onmouseout="this.className='WotherDay'" class="WotherDay">8</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="dpTime">
+			<div class="menuSel hhMenu" style="display: none;"></div>
+			<div class="menuSel mmMenu" style="display: none;"></div>
+			<div class="menuSel ssMenu" style="display: none;"></div>
+			<table cellspacing="0" cellpadding="0" border="0">
+				<tbody>
+					<tr>
+						<td rowspan="2"><span id="dpTimeStr">时间</span>&nbsp;<input class="tB" maxlength="2"><input value=":"
+								class="tm" readonly=""><input class="tE" maxlength="2"><input value=":" class="tm" readonly=""><input
+								class="tE" maxlength="2"></td>
+						<td><button id="dpTimeUp"></button></td>
+					</tr>
+					<tr>
+						<td><button id="dpTimeDown"></button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="dpQS" title="快速选择"></div>
+		<div id="dpControl"><input class="dpButton" id="dpClearInput" type="button" value="清空"><input class="dpButton"
+				id="dpTodayInput" type="button" value="今天"><input class="dpButton" id="dpOkInput" type="button" value="确定">
+		</div>
+	</div>
+</body>
+
+</html>
